@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import viteConfig from '../../vite.config.js';
 
@@ -19,19 +19,14 @@ describe('delivery (source checks)', () => {
     expect(publishing).toMatch(/PENDING-HERBERT.*10.*11/s);
   });
 
-  it('TC-38 (AC-33): CI checks PRs and deploy publishes main to Pages', () => {
+  it('TC-38 (AC-33): CI checks PRs and there is no Pages deploy workflow', () => {
     const ci = read('.github/workflows/ci.yml');
     expect(ci).toMatch(/pull_request/);
     expect(ci).toMatch(/npm run build/);
     expect(ci).toMatch(/npm test/);
     expect(ci).toMatch(/npm run test:e2e/);
 
-    const deploy = read('.github/workflows/deploy.yml');
-    expect(deploy).toMatch(/push:\s*\n\s*branches: \[main\]/);
-    expect(deploy).toMatch(/npm run build/);
-    expect(deploy).toMatch(/upload-pages-artifact[\s\S]*path: dist/);
-    expect(deploy).toMatch(/actions\/deploy-pages/);
-
-    expect(viteConfig.base).toBe('/unflaky-sie/');
+    expect(existsSync(new URL('../../.github/workflows/deploy.yml', import.meta.url))).toBe(false);
+    expect(viteConfig.base).toBe('/');
   });
 });
