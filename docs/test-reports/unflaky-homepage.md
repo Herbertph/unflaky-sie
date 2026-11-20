@@ -82,3 +82,14 @@ Test cases: 42 (TC-1…TC-42), all Pass. Flaky tests: none observed.
 ## Spec issues
 
 None blocking. Not covered by automation: visual fidelity to prototype v5 (fonts, glow, icon drawings) — needs Herbert's visual review.
+
+## Retest 2026-11-20: #3 (branch `feature/vercel-hosting`, commit `f3d7986`)
+
+| Issue | Result |
+|---|---|
+| #3 (critical): Production site on Vercel loads without CSS/JS | Fixed locally; production verification pending merge |
+
+- `e2e/delivery.spec.js` › `AC-34 …` (TC-43): Pass on the local build served at `/`.
+- Full suite: unit 20/20, e2e 48/48, build ok. No regressions.
+- Against https://unflaky-sie.vercel.app/ AC-34 still fails, as expected: production serves the old `main` (`50475c4`, assets under `/unflaky-sie/`). The branch is not pushed, so there is no Vercel preview. Run TC-43 against production right after merge.
+- TC-38 updated: Pages deploy workflow removed, base `/`.
