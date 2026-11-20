@@ -8,8 +8,8 @@ Built with a multi-agent pipeline: requirements analyst → developer → tester
 
 - Vite + vanilla JavaScript (ES modules), plain CSS. No framework.
 - Vitest + jsdom for unit tests, Playwright (Chromium) for end-to-end tests.
-- GitHub Actions: `ci.yml` (build, unit, e2e on PRs and `main`), `deploy.yml` (GitHub Pages on push to `main`).
-- Vite `base` is `/unflaky-sie/` (served at https://herbertph.github.io/unflaky-sie/).
+- GitHub Actions: `ci.yml` (build, unit, e2e on PRs and `main`).
+- Hosting: Vercel builds and deploys `main` at the domain root (https://unflaky-sie.vercel.app/). Vite `base` is `/`.
 
 ## Commands
 
@@ -40,7 +40,7 @@ Built with a multi-agent pipeline: requirements analyst → developer → tester
 - PENDING-HERBERT: numbers 10 (jurisdictions) and 11 (testers) in the stats, `lead.desc` and the leadership chip need
   Herbert's confirmation. Search the source for `PENDING-HERBERT`.
 - Replace `public/assets/herbert-hero.jpg` (placeholder) with Herbert's real photo; no other change is needed.
-- Enable GitHub Pages with source "GitHub Actions" in the repository settings.
+- Vercel project settings: framework Vite, build `npm run build`, output `dist`.
 
 ## Conventions
 

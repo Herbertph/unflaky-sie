@@ -41,6 +41,7 @@ Viewports: desktop 1280×800, tablet 900×1000, mobile 390×844; extra explorato
 | AC-31 | TC-36 |
 | AC-32 | TC-37 |
 | AC-33 | TC-38 |
+| AC-34 | TC-43 |
 | Exploratory (FR-23/24, a11y) | TC-39, TC-40, TC-41, TC-42 |
 
 Common precondition for every e2e case: production build served by `vite preview` on port 4173 at `/unflaky-sie/`,
@@ -441,14 +442,28 @@ browser locale `pt-BR` unless stated, viewport 1280×800 unless stated.
 - **Automated by:** `e2e/homepage.spec.js` › `TC-37 (AC-32): no console errors while switching language and running the suite`
 - **Status:** Pass
 
-### TC-38: CI and deploy workflows
+### TC-38: CI workflow and hosting config
 - **Acceptance criterion:** AC-33
 - **Priority:** medium
 - **Type:** functional
 - **Steps:** 1. Read `ci.yml`, `deploy.yml`, `vite.config.js`.
-- **Expected result:** CI on PRs runs build, unit and e2e; deploy on push to `main` publishes `dist` to Pages; base `/unflaky-sie/`.
-- **Automated by:** `tests/unit/delivery.test.js` › `TC-38 (AC-33): CI checks PRs and deploy publishes main to Pages`
+- **Expected result:** CI on PRs runs build, unit and e2e; no GitHub Pages deploy workflow (Vercel deploys `main`); base `/`.
+- **Automated by:** `tests/unit/delivery.test.js` › `TC-38 (AC-33): CI checks PRs and there is no Pages deploy workflow`
 - **Status:** Pass (static check only; a real CI run happens when the PR is opened)
+
+### TC-43: build served at the root loads styles, script and photo
+- **Acceptance criterion:** AC-34
+- **Priority:** high
+- **Type:** functional
+- **Preconditions:** production build served at `/` (locally by `vite preview`; after merge, https://unflaky-sie.vercel.app/)
+- **Test data:** —
+- **Steps:**
+  1. Load `/`; read the stylesheet, module script and photo URLs.
+  2. Request each URL; read the body background color.
+  3. Click EN.
+- **Expected result:** no URL contains `/unflaky-sie/`; each returns 200; background `rgb(11, 10, 8)`; page switches to EN.
+- **Automated by:** `e2e/delivery.spec.js` › `AC-34: production build served at / loads styles, script and photo`
+- **Status:** Pass locally (f3d7986); production pending merge (#3)
 
 ## Exploratory
 
@@ -492,5 +507,5 @@ browser locale `pt-BR` unless stated, viewport 1280×800 unless stated.
 
 - Visual fidelity to prototype v5 (fonts actually rendering, glow, shadows, icon drawings): no baseline exists; judged by eye only, listed in the report.
 - Google Fonts loading: external network, not asserted (offline runs would be flaky).
-- Real GitHub Pages deployment (AC-33, second half): only verifiable after merge to `main`.
+- Vercel production deployment: only verifiable after merge to `main` (TC-43 is run manually against production then).
 - Browsers other than Chromium: the project's Playwright config is Chromium-only by design.

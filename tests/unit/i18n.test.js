@@ -13,7 +13,7 @@ function parseCopy() {
       .replace(/\\\*/g, '*')
       .trim();
   const copy = { pt: {}, en: {} };
-  for (const line of section.split('\n')) {
+  for (const line of section.split(/\r?\n/)) {
     const m = line.match(/^\| `([^`]+)`[^|]*\| (.*) \| (.*) \|$/);
     if (!m) continue;
     copy.pt[m[1]] = clean(m[2]);

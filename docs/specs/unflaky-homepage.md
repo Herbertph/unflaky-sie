@@ -31,7 +31,7 @@ Herbert appears exactly once, in the Technical leadership section, as the person
 - Language auto-detection and the PT | EN switcher.
 - FAQ accordion and the interactive "Run the suite" sample report.
 - Responsive behavior at 1020px and 680px breakpoints.
-- Deployment to GitHub Pages from `main` via GitHub Actions.
+- Hosting on Vercel (https://unflaky-sie.vercel.app/), which deploys `main` automatically; the site is served at the domain root.
 - A placeholder for Herbert's photo until he sends the real file.
 - Fill in `CLAUDE.md` (stack, commands, structure).
 
@@ -185,8 +185,9 @@ the only change needed later. `herbert-story.jpg` is never used.
 
 **FR-26 Meta.** `<title>` = `title` key; fixed PT meta description from the copy file; `viewport` meta.
 
-**FR-27 Deploy.** GitHub Actions: on every PR run build + unit + e2e; on push to `main`, build and deploy to GitHub Pages
-(Vite `base` set to `/unflaky-sie/`).
+**FR-27 Deploy.** GitHub Actions runs build + unit + e2e on every PR and on `main`. Hosting is Vercel, which builds and
+deploys `main` itself, serving the site at the domain root: Vite `base` is `/`. There is no GitHub Pages workflow.
+(Changed by issue #3: the original `/unflaky-sie/` base broke every asset URL on Vercel.)
 
 ## 4. Acceptance criteria
 
@@ -269,8 +270,12 @@ Viewports used below: desktop 1280×800, tablet 900×1000, mobile 390×844.
 **Quality and delivery**
 - **AC-32** Given the page loads and the user switches language and runs the suite, then the browser console has no
   errors.
-- **AC-33** Given a PR, then CI runs build, unit and e2e tests and all pass; given a push to `main`, the site is deployed
-  to GitHub Pages.
+- **AC-33** Given a PR, then CI runs build, unit and e2e tests and all pass. The repository has no GitHub Pages deploy
+  workflow.
+- **AC-34** Given the production build served at the root path `/` (as on Vercel), when the page loads, then the built
+  stylesheet, script and `assets/herbert-hero.jpg` all respond HTTP 200, the body background computes to `#0B0A08`, and
+  the language switcher works (clicking EN switches the page to English). No asset URL in `dist/index.html` contains
+  `/unflaky-sie/`.
 
 ## 5. Assumptions (Herbert to confirm in review)
 
@@ -280,7 +285,7 @@ Viewports used below: desktop 1280×800, tablet 900×1000, mobile 390×844.
 2. **Prototype v5 HTML is not available.** The PDF is the reference. Details it does not specify (service card icon
    drawings, exact paddings inside cards, chip styles) are reproduced faithfully to the described style and listed in
    the PR.
-3. **Hosting:** GitHub Pages under `https://herbertph.github.io/unflaky-sie/`. Custom domain later.
+3. **Hosting:** Vercel at `https://unflaky-sie.vercel.app/` (root path). Custom domain later.
 4. **Photo:** placeholder until Herbert sends `herbert-hero.jpg`.
 5. **Numbers 10 and 11:** kept and flagged as pending (FR-14), as the source requires.
 
