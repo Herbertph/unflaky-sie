@@ -27,7 +27,7 @@
 *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }
 
 body {
   margin: 0;
@@ -39,6 +39,7 @@ body {
 }
 
 a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 3px; }
 h1, h2, h3 { margin: 0; font-family: var(--sans); line-height: 1.1; }
 p { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
@@ -130,15 +131,16 @@ h1 { font-size: clamp(2.8rem, 6vw, 4.6rem); font-weight: 800; letter-spacing: -0
 
 /* Services */
 .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.card { display: flex; flex-direction: column; gap: 16px; padding: 32px; background: var(--panel); border: 1px solid var(--line); }
+.card { display: flex; flex-direction: column; gap: 16px; padding: 32px; background: var(--panel); border: 1px solid var(--line); transition: border-color .2s; }
+.card:hover { border-color: var(--gold-dim); }
 .card-idx { font-size: 12px; color: var(--ink-3); }
-.icon { width: 32px; height: 32px; fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.icon { flex-shrink: 0; width: 32px; height: 32px; fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .card h3 { font-size: 1.35rem; font-weight: 700; }
 .card p { color: var(--ink-2); }
 .deliv { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line-soft); }
 .deliv-label { display: block; font-size: 11px; color: var(--gold); margin-bottom: 10px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chips li { font-size: 11px; padding: 5px 10px; border: 1px solid var(--line); background: var(--panel-2); color: var(--ink-2); }
+.chips li { font-size: 11px; line-height: 1.4; padding: 5px 10px; border-radius: 2px; border: 1px solid var(--line); background: var(--panel-2); color: var(--ink-2); }
 .chips strong { color: var(--gold); }
 
 /* House standard */
@@ -185,6 +187,7 @@ h1 { font-size: clamp(2.8rem, 6vw, 4.6rem); font-weight: 800; letter-spacing: -0
 .lead-name { font-size: 1.8rem; font-weight: 800; }
 .lead-role { color: var(--ink-3); font-size: .9rem; }
 .lead-body p { color: var(--ink-2); margin: 8px 0; }
+.lead-body .chips { margin-top: 6px; }
 
 /* FAQ */
 .faq-list details { border-bottom: 1px solid var(--line); }
